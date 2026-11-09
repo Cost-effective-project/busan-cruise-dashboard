@@ -752,12 +752,61 @@ st.markdown(
         margin: 0.45rem 0;
     }
 
-    /* 운영 TIP 본문: 각 항목을 한 행으로 유지하고 행간을 최소화 */
-    .planning-tip-list {
-        display: block;
+    /* 운영 TIP 전체 콘텐츠의 하단 여백: 본문과 카드 테두리 사이 공간 확보 */
+    .planning-tip-content {
+        box-sizing: border-box;
+        padding-bottom: 2.5rem !important;
+    }
+
+    /* 운영 TIP: Streamlit의 divider/columns 래퍼를 사용하지 않고
+       하나의 HTML 레이아웃으로 구성해 불필요한 기본 여백을 제거 */
+    .planning-tip-divider-line {
         width: 100%;
-        margin: 0 !important;
-        padding: 0 !important;
+        height: 1px;
+        border: 0;
+        background: #D9E2EA;
+        margin: 8px 0 8px 0;
+        padding: 0;
+    }
+
+    .planning-tip-body {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        min-width: 0;
+        gap: 22px;
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .planning-tip-clipboard {
+        display: flex;
+        flex: 0 0 155px;
+        align-items: center;
+        justify-content: center;
+        min-width: 0;
+        margin: 0;
+        padding: 0;
+    }
+
+    .planning-tip-clipboard img {
+        display: block;
+        width: 116px;
+        height: 116px;
+        object-fit: contain;
+        margin: 0;
+        padding: 0;
+    }
+
+    .planning-tip-list {
+        display: flex;
+        flex: 1 1 auto;
+        flex-direction: column;
+        min-width: 0;
+        width: 100%;
+        margin: 0;
+        padding: 0;
     }
 
     .planning-tip-item {
@@ -766,9 +815,8 @@ st.markdown(
         gap: 12px;
         width: 100%;
         min-width: 0;
-        min-height: 0 !important;
-        padding: 2px 0 !important;
-        margin: 0 !important;
+        margin: 0;
+        padding: 7px 0;
         box-sizing: border-box;
     }
 
@@ -779,8 +827,8 @@ st.markdown(
         justify-content: center;
         width: 28px;
         height: 28px;
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0;
+        padding: 0;
     }
 
     .planning-tip-item-check img {
@@ -795,17 +843,20 @@ st.markdown(
         flex: 0 0 145px;
         align-items: center;
         min-width: 0;
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0;
+        padding: 0;
     }
 
-    /* Streamlit Markdown의 기본 p 여백이 행 높이를 늘리지 않도록 우선순위 강화 */
-    .st-key-planning-tip-card .planning-tip-list .planning-tip-item p.planning-tip-item-description {
+    .planning-tip-item-description {
         flex: 1 1 auto;
         min-width: 0;
         margin: 0 !important;
         padding: 0 !important;
+        color: #173455;
+        font-size: 0.93rem;
+        font-weight: 650;
         line-height: 1.32 !important;
+        word-break: keep-all;
     }
 
     .planning-tip-item-divider {
@@ -815,13 +866,12 @@ st.markdown(
         min-height: 1px;
         border: 0;
         background: #E0EDF8;
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0;
+        padding: 0;
     }
 
     .planning-tip-item:last-child {
-        padding-bottom: 0 !important;
-        margin-bottom: 0 !important;
+        padding-bottom: 0;
     }
 
 
@@ -1753,9 +1803,11 @@ _tip_check_src = _OPERATION_TIP_CHECK_SRC
 
 with st.container(key="planning-tip-card", border=True):
 
-    # 운영 TIP 제목·구분선·설명을 한 줄로 배치
-    st.markdown(
-        f"""
+    # 제목, 구분선, 아이콘, 본문을 하나의 HTML로 렌더링한다.
+    # st.divider()와 st.columns()가 만드는 Streamlit 요소 래퍼의 기본 간격을
+    # 원천적으로 피하기 위한 구성이다.
+    tips_html = f"""
+    <div class="planning-tip-content">
         <div class="planning-tip-heading-row">
             <img
                 class="planning-tip-heading-icon"
@@ -1768,63 +1820,71 @@ with st.container(key="planning-tip-card", border=True):
                 과거 입항 패턴을 바탕으로 한 사전 검토 참고사항
             </p>
         </div>
-        """,
-        unsafe_allow_html=True,
-    )
 
-    st.divider()
+        <div class="planning-tip-divider-line"></div>
 
-    # 본문 왼쪽의 큰 아이콘과 3개 운영 참고사항
-    illustration_col, tips_col = st.columns(
-        [0.42, 2.58],
-        gap="medium",
-        vertical_alignment="center"
-    )
+        <div class="planning-tip-body">
+            <div class="planning-tip-clipboard">
+                <img
+                    src="{_tip_clipboard_src}"
+                    alt="운영 참고 체크리스트 아이콘"
+                >
+            </div>
 
-    with illustration_col:
-        st.markdown(
-            f'<div style="display:flex;align-items:center;justify-content:center;min-height:150px;">'
-            f'<img src="{_tip_clipboard_src}" alt="운영 참고 체크리스트 아이콘" '
-            'style="width:116px;height:116px;object-fit:contain;display:block;">'
-            '</div>',
-            unsafe_allow_html=True
-        )
+            <div class="planning-tip-list">
+                <div class="planning-tip-item">
+                    <div class="planning-tip-item-check">
+                        <img src="{_tip_check_src}" alt="체크">
+                    </div>
+                    <div class="planning-tip-item-label">
+                        <span class="planning-tip-label">입항 규모 검토</span>
+                    </div>
+                    <p class="planning-tip-item-description">
+                        예상 입항수와 과거 동일 월 평균 입항 건수를 비교하고,
+                        해당 월의 과거 입항 집중 시기와 계선장소별 입항 분포를 함께 확인하면
+                        사전 운영계획 검토에 도움이 됩니다.
+                    </p>
+                </div>
 
-    with tips_col:
-        # 빈 줄로 HTML 블록이 분리되지 않도록 하나의 연속된 HTML로 출력
-        tips_html = (
-            f'<div class="planning-tip-list">'
-            f'<div class="planning-tip-item">'
-            f'<div class="planning-tip-item-check"><img src="{_tip_check_src}" alt="체크"></div>'
-            f'<div class="planning-tip-item-label"><span class="planning-tip-label">입항 규모 검토</span></div>'
-            f'<p class="planning-tip-text planning-tip-item-description">'
-            f'예상 입항수와 과거 동일 월 평균 입항 건수를 비교하고, '
-            f'해당 월의 과거 입항 집중 시기와 계선장소별 입항 분포를 함께 확인하면 '
-            f'사전 운영계획 검토에 도움이 됩니다.'
-            f'</p>'
-            f'</div>'
-            f'<hr class="planning-tip-item-divider">'
-            f'<div class="planning-tip-item">'
-            f'<div class="planning-tip-item-check"><img src="{_tip_check_src}" alt="체크"></div>'
-            f'<div class="planning-tip-item-label"><span class="planning-tip-label">승객 규모 해석</span></div>'
-            f'<p class="planning-tip-text planning-tip-item-description">'
-            f'예상 승객수는 승객정원 기준으로 산정된 값이므로, '
-            f'실제 방문객 수나 운영 인력 수요로 직접 활용하기에는 '
-            f'추가 자료가 필요합니다.'
-            f'</p>'
-            f'</div>'
-            f'<hr class="planning-tip-item-divider">'
-            f'<div class="planning-tip-item">'
-            f'<div class="planning-tip-item-check"><img src="{_tip_check_src}" alt="체크"></div>'
-            f'<div class="planning-tip-item-label"><span class="planning-tip-label">활용 예시</span></div>'
-            f'<p class="planning-tip-text planning-tip-item-description">'
-            f'계선장소 배정 검토, CIQ(출입국·세관·검역) 운영 준비, '
-            f'터미널 시설 운영 계획 수립 시 참고자료로 활용할 수 있습니다.'
-            f'</p>'
-            f'</div>'
-            f'</div>'
-        )
-        st.markdown(tips_html, unsafe_allow_html=True)
+                <div class="planning-tip-item-divider"></div>
+
+                <div class="planning-tip-item">
+                    <div class="planning-tip-item-check">
+                        <img src="{_tip_check_src}" alt="체크">
+                    </div>
+                    <div class="planning-tip-item-label">
+                        <span class="planning-tip-label">승객 규모 해석</span>
+                    </div>
+                    <p class="planning-tip-item-description">
+                        예상 승객수는 승객정원 기준으로 산정된 값이므로,
+                        실제 방문객 수나 운영 인력 수요로 직접 활용하기에는
+                        추가 자료가 필요합니다.
+                    </p>
+                </div>
+
+                <div class="planning-tip-item-divider"></div>
+
+                <div class="planning-tip-item">
+                    <div class="planning-tip-item-check">
+                        <img src="{_tip_check_src}" alt="체크">
+                    </div>
+                    <div class="planning-tip-item-label">
+                        <span class="planning-tip-label">활용 예시</span>
+                    </div>
+                    <p class="planning-tip-item-description">
+                        계선장소 배정 검토, CIQ(출입국·세관·검역) 운영 준비,
+                        터미널 시설 운영 계획 수립 시 참고자료로 활용할 수 있습니다.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    """
+    # 빈 줄 때문에 textwrap.dedent()가 공통 들여쓰기를 제거하지 못하는 문제가 있어
+    # HTML 문자열의 각 줄 앞뒤 공백을 직접 제거한다.
+    # 이렇게 하면 첫 태그가 반드시 0열에서 시작해 Markdown 코드 블록으로 처리되지 않는다.
+    tips_html = "\n".join(line.strip() for line in tips_html.splitlines()).strip()
+    st.markdown(tips_html, unsafe_allow_html=True)
 
 
 
