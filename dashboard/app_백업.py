@@ -3,7 +3,6 @@ import streamlit as st
 import base64
 import pandas as pd
 import plotly.graph_objects as go
-
 from pathlib import Path
 from PIL import Image
 
@@ -73,7 +72,7 @@ st.markdown(
     }
 
 
-    /* KPI CARDS */
+    /* KPI CARDS — 입항패턴 분석 페이지와 동일한 카드 레이아웃 */
 
     .st-key-kpi-arrivals,
     .st-key-kpi-passengers,
@@ -82,6 +81,8 @@ st.markdown(
         border: 1px solid #C8E1F9 !important;
         border-radius: 16px !important;
         box-shadow: 0 3px 12px rgba(57, 112, 164, 0.08);
+        min-height: 140px !important;
+        height: 140px !important;
     }
 
     .st-key-kpi-arrivals [data-testid="stVerticalBlockBorderWrapper"],
@@ -89,90 +90,79 @@ st.markdown(
     .st-key-kpi-average [data-testid="stVerticalBlockBorderWrapper"] {
         background: #FFFFFF !important;
         border-radius: 16px !important;
-        height: 140px !important;
         min-height: 140px !important;
-        box-sizing: border-box !important;
-        overflow-y: hidden !important;
+        height: 140px !important;
+        display: flex !important;
+        justify-content: center !important;
     }
-
-    /* KPI 내부 스크롤 방지: 세 카드 모두 같은 높이로 표시 */
-    .st-key-kpi-arrivals [data-testid="stVerticalBlock"],
-    .st-key-kpi-passengers [data-testid="stVerticalBlock"],
-    .st-key-kpi-average [data-testid="stVerticalBlock"] {
-        overflow-y: hidden !important;
-    }
-
-    /* KPI TEXT ALIGNMENT */
 
     .st-key-kpi-arrivals [data-testid="stMarkdownContainer"],
     .st-key-kpi-passengers [data-testid="stMarkdownContainer"],
     .st-key-kpi-average [data-testid="stMarkdownContainer"] {
+        width: 100% !important;
         text-align: center !important;
     }
-
-    /* KPI TITLE FONT SIZE */
 
     .st-key-kpi-arrivals [data-testid="stMarkdownContainer"] p,
     .st-key-kpi-passengers [data-testid="stMarkdownContainer"] p,
     .st-key-kpi-average [data-testid="stMarkdownContainer"] p {
-        font-size: 1.2rem !important;
-        line-height: 1.35 !important;
-        margin-bottom: 0.3rem !important;
+        font-size: 20px !important;
+        font-weight: 700 !important;
+        line-height: 26px !important;
+        height: 26px !important;
+        white-space: nowrap !important;
+        margin: 0 !important;
+        text-align: center !important;
     }
-
-    /* KPI VALUE FONT SIZE */
 
     .st-key-kpi-arrivals [data-testid="stMarkdownContainer"] h2,
     .st-key-kpi-passengers [data-testid="stMarkdownContainer"] h2,
     .st-key-kpi-average [data-testid="stMarkdownContainer"] h2 {
-        font-size: 1.7rem !important;
-        line-height: 1.2 !important;
-        margin-top: 0.1rem !important;
-        margin-bottom: 0 !important;
+        font-size: 30px !important;
+        line-height: 36px !important;
+        height: 36px !important;
+        margin: 0 !important;
+        white-space: nowrap !important;
         text-align: center !important;
+        transform: translateX(12px) !important;
     }
 
-    /* PASSENGER KPI VALUE: SMALLER FONT + NO WRAPPING */
-
     .st-key-kpi-passengers [data-testid="stMarkdownContainer"] h2 {
-        font-size: 1.25rem !important;
-        white-space: nowrap !important;
         letter-spacing: -0.03em !important;
     }
 
-    /* KPI 내부 콘텐츠를 카드 높이의 정중앙에 배치 */
-
-    .st-key-kpi-arrivals [data-testid="stVerticalBlockBorderWrapper"],
-    .st-key-kpi-passengers [data-testid="stVerticalBlockBorderWrapper"],
-    .st-key-kpi-average [data-testid="stVerticalBlockBorderWrapper"] {
-        display: flex !important;
-        flex-direction: column !important;
-        justify-content: center !important;
-        align-items: stretch !important;
-    }
-
-    .st-key-kpi-arrivals [data-testid="stVerticalBlockBorderWrapper"] > [data-testid="stVerticalBlock"],
-    .st-key-kpi-passengers [data-testid="stVerticalBlockBorderWrapper"] > [data-testid="stVerticalBlock"],
-    .st-key-kpi-average [data-testid="stVerticalBlockBorderWrapper"] > [data-testid="stVerticalBlock"] {
+    .st-key-kpi-arrivals [data-testid="stHorizontalBlock"],
+    .st-key-kpi-passengers [data-testid="stHorizontalBlock"],
+    .st-key-kpi-average [data-testid="stHorizontalBlock"] {
         width: 100% !important;
-        height: 100% !important;
-        min-height: 100% !important;
-        display: flex !important;
-        flex-direction: column !important;
         justify-content: center !important;
-        box-sizing: border-box !important;
+        column-gap: 8px !important;
+        align-items: center !important;
+        flex-wrap: nowrap !important;
     }
 
-    /* 아이콘은 카드 중앙축에 정렬하고 개별 수직 이동을 적용하지 않음 */
-    .st-key-kpi-arrivals [data-testid="stImage"],
-    .st-key-kpi-passengers [data-testid="stImage"],
-    .st-key-kpi-average [data-testid="stImage"] {
+    .st-key-kpi-arrivals [data-testid="stHorizontalBlock"] > div,
+    .st-key-kpi-passengers [data-testid="stHorizontalBlock"] > div,
+    .st-key-kpi-average [data-testid="stHorizontalBlock"] > div {
+        flex: 0 1 auto !important;
+        min-width: 0 !important;
+    }
+
+    .st-key-kpi-arrivals [data-testid="stHorizontalBlock"] > div:nth-child(2),
+    .st-key-kpi-passengers [data-testid="stHorizontalBlock"] > div:nth-child(2),
+    .st-key-kpi-average [data-testid="stHorizontalBlock"] > div:nth-child(2) {
         display: flex !important;
+        flex-direction: column !important;
         align-items: center !important;
         justify-content: center !important;
-        margin-top: 0 !important;
-        margin-bottom: 0 !important;
-        transform: none !important;
+        min-width: 0 !important;
+    }
+
+    .st-key-kpi-arrivals [data-testid="stImage"] img,
+    .st-key-kpi-passengers [data-testid="stImage"] img,
+    .st-key-kpi-average [data-testid="stImage"] img {
+        display: block !important;
+        transform: translate(14px, 15px) !important;
     }
 
 
@@ -862,60 +852,24 @@ def sidebar_menu_item(
 # 10. KPI CARD FUNCTION
 # ============================================================
 
-def render_kpi_card(
-    card_key,
-    icon_path,
-    title,
-    value,
-    icon_width=110,
-    subtitle=None
-):
+def render_kpi_card(card_key, icon_path, title, value, icon_width=82):
 
-    # 세 KPI 카드에 동일한 높이를 적용합니다.
-    # 연평균 카드에는 별도 연도 부제목을 표시하지 않아 세 카드의 높이와 내부 여백을 통일합니다.
-    with st.container(
-        key=card_key,
-        border=True,
-        height=140
-    ):
+    # 입항패턴 분석 페이지와 동일하게 아이콘과 텍스트를 가로로 배치합니다.
+    with st.container(key=card_key, border=True):
 
-        left_space, content_col, right_space = st.columns(
-            [0.55, 3.3, 0.55],
-            gap=0,
+        icon_col, text_col = st.columns(
+            [0.8, 1.2],
+            gap="small",
             vertical_alignment="center"
         )
 
-        with content_col:
+        with icon_col:
+            if icon_path.is_file():
+                st.image(str(icon_path), width=icon_width)
 
-            icon_col, text_col = st.columns(
-                [1.0, 1.5],
-                vertical_alignment="center",
-                gap="small"
-            )
-
-            with icon_col:
-
-                if icon_path.is_file():
-
-                    st.image(
-                        str(icon_path),
-                        width=icon_width
-                    )
-
-                else:
-
-                    st.warning(
-                        f"아이콘 파일을 찾을 수 없습니다: {icon_path.name}"
-                    )
-
-            with text_col:
-
-                st.markdown(f"**{title}**")
-                st.markdown(f"## {value}")
-
-                if subtitle:
-                    st.caption(subtitle)
-
+        with text_col:
+            st.markdown(f"**{title}**")
+            st.markdown(f"## {value}")
 
 # ============================================================
 # 11. SIDEBAR
@@ -1014,33 +968,194 @@ with st.sidebar:
 
 # ============================================================
 # 12. HEADER BANNER IMAGE
-# ============================================================
+# 입항패턴 분석 페이지와 동일한 배너 레이아웃을 사용합니다.
 
-if HEADER_IMAGE is not None:
+period_start_text = "2013.01.01"
+period_end_text = (
+    latest_date.strftime("%Y.%m.%d")
+    if not cruise_df.empty and pd.notna(latest_date)
+    else "2026.10.16"
+)
 
-    st.image(
-        str(HEADER_IMAGE),
-        use_container_width=True
-    )
+if HEADER_IMAGE is not None and HEADER_IMAGE.is_file():
+
+    header_image_base64 = base64.b64encode(
+        HEADER_IMAGE.read_bytes()
+    ).decode("utf-8")
+
+    # 입항패턴 분석 페이지와 동일하게 달력 아이콘을 데이터 범위 옆에 표시
+    if AVERAGE_ICON_IMAGE.is_file():
+        period_icon_base64 = base64.b64encode(
+            AVERAGE_ICON_IMAGE.read_bytes()
+        ).decode("utf-8")
+        period_icon_html = (
+            f'<img class="busan-header-period-icon" '
+            f'src="data:image/png;base64,{period_icon_base64}" '
+            f'alt="데이터 범위" />'
+        )
+    else:
+        period_icon_html = ""
+
+    header_html = f"""
+    <style>
+    .busan-header-banner {{
+        width: 100%;
+        height: 150px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 24px;
+        padding: 18px 26px;
+        border: 1px solid rgba(160, 200, 235, 0.75);
+        border-radius: 12px;
+        overflow: hidden;
+        background-image:
+            linear-gradient(
+                90deg,
+                rgba(255,255,255,0.08) 0%,
+                rgba(255,255,255,0.00) 58%,
+                rgba(5,35,70,0.04) 100%
+            ),
+            url("data:image/png;base64,{header_image_base64}");
+        background-size: 100% 100%;
+        background-position: center;
+        background-repeat: no-repeat;
+        box-shadow: 0 3px 12px rgba(57, 112, 164, 0.08);
+    }}
+
+    .busan-header-brand {{
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 7px;
+    }}
+
+    .busan-header-title {{
+        color: #071F55;
+        font-size: clamp(25px, 2.2vw, 37px);
+        font-weight: 850;
+        letter-spacing: -1.1px;
+        line-height: 1.05;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(255,255,255,0.35);
+    }}
+
+    .busan-header-subtitle {{
+        color: #08274A;
+        font-size: clamp(12px, 1.05vw, 17px);
+        font-weight: 750;
+        letter-spacing: -0.25px;
+        line-height: 1.25;
+        white-space: nowrap;
+        text-shadow: 0 1px 2px rgba(255,255,255,0.45);
+    }}
+
+    .busan-header-period {{
+        flex: 0 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 6px;
+        min-width: 245px;
+        padding: 11px 16px;
+        box-sizing: border-box;
+        border: 1px solid rgba(255,255,255,0.35);
+        border-radius: 13px;
+        background: rgba(5, 39, 76, 0.94);
+        color: #FFFFFF;
+        box-shadow: 0 3px 10px rgba(0, 28, 65, 0.20);
+    }}
+
+    .busan-header-period-label {{
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        color: #FFFFFF;
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.1;
+        margin: 0;
+    }}
+
+    .busan-header-period-icon {{
+        display: block;
+        width: 17px;
+        height: 17px;
+        object-fit: contain;
+        flex: 0 0 17px;
+    }}
+
+    .busan-header-period-value {{
+        color: #FFFFFF;
+        font-size: 14px;
+        font-weight: 750;
+        line-height: 1.2;
+        white-space: nowrap;
+        letter-spacing: -0.2px;
+        margin: 0;
+    }}
+
+    @media (max-width: 900px) {{
+        .busan-header-banner {{
+            height: 118px;
+            padding: 12px 14px;
+            gap: 10px;
+        }}
+        .busan-header-period {{
+            min-width: 205px;
+            padding: 9px 11px;
+        }}
+        .busan-header-period-value {{
+            font-size: 12px;
+        }}
+        .busan-header-period-icon {{
+            width: 15px;
+            height: 15px;
+            flex-basis: 15px;
+        }}
+    }}
+    </style>
+
+    <div class="busan-header-banner">
+        <div class="busan-header-brand">
+            <div class="busan-header-title">BUSAN CRUISE INSIGHT</div>
+            <div class="busan-header-subtitle">
+                부산항 크루즈 입항 패턴 기반 운영계획 검토 지원 대시보드
+            </div>
+        </div>
+
+        <div class="busan-header-period">
+            <div class="busan-header-period-label">
+                {period_icon_html}
+                <span>데이터 범위</span>
+            </div>
+            <div class="busan-header-period-value">
+                {period_start_text} ~ {period_end_text}
+            </div>
+        </div>
+    </div>
+    """
+
+    # pattern 페이지와 동일하게 HTML 전용 렌더러 사용
+    st.html(header_html)
 
 else:
-
-    st.error(
-        "상단 배너 이미지를 찾을 수 없습니다."
-    )
-
-    st.code(str(EXTERNAL_HEADER_IMAGE))
-    st.code(str(PROJECT_HEADER_IMAGE))
+    st.error("상단 배너 이미지를 찾을 수 없습니다.")
+    st.code(str(HEADER_IMAGE))
 
 
 # ============================================================
+
+
 # 13. KPI CARDS
 # ============================================================
 
 st.write("")
 
 kpi1, kpi2, kpi3 = st.columns(
-    [1, 1, 1.12],
+    [1, 1, 1],
     gap="medium"
 )
 
@@ -1054,7 +1169,7 @@ with kpi1:
         icon_path=ARRIVAL_ICON_IMAGE,
         title="총 입항 건수",
         value=total_arrivals_display,
-        icon_width=110
+        icon_width=82
     )
 
 
@@ -1067,7 +1182,7 @@ with kpi2:
         icon_path=PASSENGER_ICON_IMAGE,
         title="총 승객 규모",
         value=total_passengers_display,
-        icon_width=110
+        icon_width=82
     )
 
 
@@ -1080,7 +1195,7 @@ with kpi3:
         icon_path=AVERAGE_ICON_IMAGE,
         title="연평균 입항 건수",
         value=annual_average_display,
-        icon_width=88
+        icon_width=82
     )
 
 

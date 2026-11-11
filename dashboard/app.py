@@ -2065,10 +2065,12 @@ with summary_col:
             """
             <style>
             .summary-text {
-                font-family: 'Malgun Gothic', sans-serif;
-                font-size: 0.82rem;
+                font-family: 'Noto Sans KR', 'Apple SD Gothic Neo',
+                             'Malgun Gothic', sans-serif;
+                font-size: 0.78rem;
                 font-weight: 600;
-                line-height: 1.5;
+                line-height: 1.6;
+                letter-spacing: -0.02em;
                 color: #173455;
                 margin: 0;
                 padding: 0;
@@ -2076,7 +2078,7 @@ with summary_col:
                 max-width: 100%;
                 white-space: normal;
                 word-break: keep-all;
-                overflow-wrap: normal;
+                overflow-wrap: break-word;
             }
             </style>
             """,
@@ -2113,9 +2115,9 @@ with summary_col:
         # 1. OVERALL ARRIVAL AND PASSENGER TREND
 
         render_summary_item(
-            "2026년 10월 16일 기준 입항은 339건, 승객은<br>"
-            "약 57.2만 명으로 두 지표 모두 이전 연간 최대치를<br>"
-            "넘어섰습니다."
+            "2026년 10월 16일까지 크루즈선은 339회 입항했고, "
+            "승객은 약 57.2만 명을 기록했습니다. "
+            "두 지표 모두 기존 연간 최고치를 넘어섰습니다."
         )
 
         st.write("")
@@ -2124,9 +2126,9 @@ with summary_col:
         # 2. MONTHLY ARRIVAL AND PASSENGER PATTERN
 
         render_summary_item(
-            "월별 승객 수는 5월 약 35만 명으로 가장 많았고<br>"
-            "6~9월에도 높은 수준을 보였으며, 코로나19<br>"
-            "이후에는 3~6월의 입항·승객 증가가 두드러졌습니다."
+            "승객은 5월에 약 35만 명으로 가장 많았습니다. "
+            "6~9월에도 높은 수준을 유지했으며, "
+            "코로나19 이후에는 3~6월의 입항·승객 증가가 두드러졌습니다."
         )
 
         st.write("")
@@ -2135,9 +2137,9 @@ with summary_col:
         # 3. BERTH ARRIVAL FREQUENCY
 
         render_summary_item(
-            "북항크루즈터미널 1선석은 입항 빈도,<br>"
-            "영도크루즈터미널은 승객 수 합계가 가장 높았으며,<br>"
-            "두 장소가 전체 1,518회 입항 중 약 63.8%를 차지했습니다."
+            "북항크루즈터미널 1선석은 입항 빈도가, "
+            "영도크루즈터미널은 누적 승객 수가 가장 높았습니다. "
+            "두 장소의 입항은 전체 1,518회 중 약 63.8%를 차지했습니다."
         )
 
 
